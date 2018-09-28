@@ -1,29 +1,16 @@
 import os
+import random
 
 from django.http import HttpResponse
+from django.template import loader
 
 
 def post_list(request):
-    """
-    / (Root URL)에 해당하는 view
-    :param request:
-    :return:
-    """
-    views_file_path = os.path.abspath(__file__)
-    blog_application_path = os.path.dirname(views_file_path)
-    app_dir = os.path.dirname(blog_application_path)
-    template_path = os.path.join(app_dir, 'templates', 'blog', 'post_list.html')
-
-    # with문 사용
-    with open(template_path, 'rt') as f:
-        content = f.read()
-
-    # 파일객체 직접 사용 후 close
-    f = open(template_path, 'rt')
-    content = f.read()
-    f.close()
-
-    # 파일객체를 변수에 할당하지 않고 사용
-    content = open(template_path, 'rt').read()
-
+    # 템플릿을 가져옴 (단순 문자열이 아님)
+    template = loader.get_template('blog/post_list.html')
+    # 해당 템플릿을 렌더링
+    context = {
+        'pokemon': random.choice(['피카츄', '파이리', '꼬부기']),
+    }
+    content = template.render(context, request)
     return HttpResponse(content)
