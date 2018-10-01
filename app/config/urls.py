@@ -29,4 +29,7 @@ urlpatterns = [
     url(r'^posts/create/$',
         views.post_create,
         name='post-create'),
+    url(r'^posts/(?P<pk>\d+)/update/$',
+        views.post_update,
+        name='post-update'),
 ]

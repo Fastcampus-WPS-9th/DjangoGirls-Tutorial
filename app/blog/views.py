@@ -87,4 +87,4 @@ def post_update(request, pk):
     #  form형태 보기
     #  input속성의 기본값은 value
     #  textarea속성의 기본값은 열림/닫힘 태그 사이의 텍스트
-    pass
+    return render(request, 'blog/post_update.html')
