@@ -87,4 +87,26 @@ def post_update(request, pk):
     #  form형태 보기
     #  input속성의 기본값은 value
     #  textarea속성의 기본값은 열림/닫힘 태그 사이의 텍스트
-    return render(request, 'blog/post_update.html')
+
+    post = Post.objects.get(pk=pk)
+    # pk에 해당하는 Post Instance를 'post'키 값으로 템플릿 렌더링 과정에 전달
+    if request.method == 'POST':
+        # form으로부터 전달된 데이터를 변수에 할당
+        title = request.POST['title']
+        text = request.POST['text']
+
+        # 수정할 Post Instance의 속성에
+        # 전달받은 데이터의 값을 할당
+        post.title = title
+        post.text = text
+
+        # DB에 변경사항을 Update
+        post.save()
+
+        # post-detail로 이동, reverse()에 pk를 사용
+        return redirect('post-detail', pk=pk)
+    else:
+        context = {
+            'post': post,
+        }
+        return render(request, 'blog/post_update.html', context)
